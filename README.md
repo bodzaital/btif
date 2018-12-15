@@ -1,7 +1,4 @@
 # btif
-An interactive fiction thingy.
-
----
 
 This is a framework to create interactive fiction. The idea is based on Twine 2, but with the aim to write raw Html, Css, and Js code instead of working within the IDE.
 
