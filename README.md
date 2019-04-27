@@ -4,21 +4,29 @@ This is a framework to create interactive fiction. The idea is based on Twine 2,
 
 ## How to use
 
-1. Have a scene-0.html. This is the entry point to the story. Other scenes may have other names.
-2. Add hyperlinks to change scenes like so: `<a href="scene-1">Go to work</a>` (href is *without* .html) will link to scene-1.html.
+Every page in the story is a scene, and each scene is in its own directory under `scenes`. A scene must have an `.html` file. This is a partial Html file without headers or `<body>` tags. A scene may have a `<meta >` tag with id `sceneData`. Currently, there is only one attribute, `data-title` which changes the scene's title as seen in the title bar.
 
-The main `app.js` will handle scene changes. As this uses AJAX calls, you need a webserver to launch the story.
+A scene could also have a script file and style sheet, both with with the same name as the scene itself (e.g. `scene-0` should have a `scene-0.html` and optionally a `scene-0.js` and `scene-0.css`).
 
-`vals.js` handles global variables. Usage would be the following:
+```
+scenes
+ ├─scene-0
+ │  ├─scene-0.html
+ │  ├─scene-0.js
+ │  └─scene-0.css
+ └─scene-1
+    ├─scene-1.html
+    ├─scene-1.js
+    └─scene-1.css
+```
 
-- in `vals.js`, add `var player = ""` for the player's name
-- for example in scene-0.html, have an `input` field with `id="name"` and add a `script` tag linking to `scene-0.js`
-- in `scene-0.js`, add an event handler for clicking on links, and save the input field value to the `player` variable
-- use this `player` variable in scene-1.html
+The main entry point to the story is defined in `configuration.js`. There, some other settings could be changed like the fade duration, the main title of the story, or enabling or disabling debug mode.
 
-## Roadmap
+To link to another scene, use an `<a>` tag, but omit the file extension. A link to `scene-1` would look like this: `<a href ="scene-1">Go to scene 1</a>`.
 
-- Be able to define any scene as the entry point in `app.js`
-- Implement Mediawiki styled short linking. This has proven challenging.
-- Implement Markdown editing and parsing.
-- Package as an Electron app.
+The backbone of the framework is `app.js`. The latest version of Firefox runs the AJAX calls, but Chrome doesn't, so you'd need a web server to launch the story.
+
+## Todo
+
+- Continually add configuration options.
+- A cli scaffolder that can create the scene directory structure.
