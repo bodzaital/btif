@@ -52,3 +52,4 @@ The backbone of the framework is `app.js` which runs the AJAX calls. The latest 
 - Example project.
 - Full documentation.
 - Fading between scenes.
+- A cli publishing tool that packages to a single Html page.
