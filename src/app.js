@@ -10,31 +10,54 @@ let debugMode = conf.debugMode;
 
 document.title = title;
 
-$("#content").load(ResolveScenePath(conf.entryPoint), (resp, stat, xhr) => {
-	if (debugMode) {
-		if (stat == "error") {
-			alert(`Runtime error 4000\nThe requested resource does not exist or the Cross-Origin Resource Sharing policy forbids loading it.\n\nWhen loading: [${scenePath}]\nattempted at: [${ResolveScenePath(scenePath)}]`);
-		}
-	}
-	SetTitle();
-});
+// Load the first scene.
+LoadNextScene(conf.entryPoint);
 
-$(document).on("click", "a", (e) => {
+// Load the next scene when a link is clicked.
+$(document).on("click", "a[data-link]", (e) => {
 	e.preventDefault();
 	$("#fade").fadeIn(fadeDuration, () => {
 		let scenePath = e.target.getAttribute("href");
-		$("#content").load(ResolveScenePath(scenePath), (resp, stat, xhr) => {
-			if (debugMode) {
-				if (stat == "error") {
-					alert(`Runtime error 4001\nThe requested resource does not exist or the Cross-Origin Resource Sharing policy forbids loading it.\n\nWhen loading: [${scenePath}]\nattempted at: [${ResolveScenePath(scenePath)}]`);
-				}
-			}
-			SetTitle();
-			LoadSceneFiles(scenePath);
+		LoadNextScene(scenePath, () => {
 			$("#fade").fadeOut(fadeDuration);
 		});
 	});
 });
+
+/**
+ * Loads the next scene along with its associated files.
+ * @param {string} scenePath The name of the scene that will be translated to its canonical path.
+ * @param {Function} callback A function to call once the loading is done (usually the fade out).
+ */
+function LoadNextScene(scenePath, callback = null) {
+	$("#content").load(ResolveScenePath(scenePath), (resp, stat, xhr) => {
+		DebugCors(stat, scenePath);
+		SetTitle();
+		LoadSceneFiles(scenePath);
+		if (callback !== null) {
+			callback();
+		}
+	})
+}
+
+/**
+ * Handles debug messages when a scene load is blocked by CORS.
+ * @param {string} stat Status code of the ajax call
+ * @param {string} scenePath The scene name which was attempted to load
+ */
+function DebugCors(stat, scenePath)
+{
+	if (!debugMode) {
+		return;
+	}
+
+	if (stat == "error")
+	{
+		alert(`Runtime error 4000\nThe requested resource does not exist or the Cross-Origin Resource Sharing policy forbids loading it.\n\nWhen loading: [${scenePath}]\nattempted at: [${ResolveScenePath(scenePath)}]`);
+
+		console.log(`Runtime error 4000\nThe requested resource does not exist or the Cross-Origin Resource Sharing policy forbids loading it.\n\nWhen loading: [${scenePath}]\nattempted at: [${ResolveScenePath(scenePath)}]`);
+	}
+}
 
 /**
  * Sets the title of the browser, concatenating the scene and story title.
