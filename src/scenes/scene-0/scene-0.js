@@ -1,1 +1,1 @@
-console.log("Scene 0");
+ß("#name").innerText = _player;

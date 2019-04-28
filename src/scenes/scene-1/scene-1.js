@@ -1,0 +1,1 @@
+ß("#name").innerText = _player;
