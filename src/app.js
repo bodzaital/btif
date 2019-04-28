@@ -2,17 +2,18 @@
 // The main backbone of the framework.
 // ===================================
 
-// Load configuration.
+// Load configuration. See configuration.js for descriptions.
 let entryPoint = conf.entryPoint;
-// let fadeDuration = conf.fadeDuration;
 let title = conf.title;
 let debugMode = conf.debugMode;
 
-document.title = title;
+// Set up variables used.
+let content = ß("#content");
 
 // Load the first scene.
 LoadNextScene(conf.entryPoint);
 
+// Scene changed click event.
 document.addEventListener("click", e => {
 	e.preventDefault();
 	
@@ -30,10 +31,6 @@ document.addEventListener("click", e => {
 	}));
 });
 
-function ß(s) {
-	return document.querySelector(s);
-}
-
 function BeforeSceneChange(callback = null) {
 	console.log("TODO: Implement something before the scene changes.");
 	if (callback !== null) {
@@ -41,14 +38,17 @@ function BeforeSceneChange(callback = null) {
 	}
 }
 
-function AfterSceneChange() {
+function AfterSceneChange(callback = null) {
 	console.log("TODO: Implement something after the scene changes.");
+	if (callback !== null) {
+		callback();
+	}
 }
 
 /**
  * Loads the next scene along with its associated files.
  * @param {string} scenePath The name of the scene that will be translated to its canonical path.
- * @param {Function} callback A function to call once the loading is done (usually the fade out).
+ * @param {Function} callback A function to call once the loading is done.
  */
 function LoadNextScene(scenePath, callback = null) {
 	let ajax = new XMLHttpRequest();
@@ -56,17 +56,17 @@ function LoadNextScene(scenePath, callback = null) {
 	ajax.send();
 
 	ajax.addEventListener("load", () => {
-		ß("#content").innerHTML = ajax.responseText;
+		content.innerHTML = ajax.responseText;
 		SetTitle();
 		LoadSceneFiles(scenePath);
 		if (callback !== null) {
 			callback();
 		}
-	})
+	});
 
 	ajax.addEventListener("error", () => {
 		DebugCors(scenePath);
-	})
+	});
 }
 
 /**
@@ -80,17 +80,18 @@ function DebugCors(scenePath)
 		return;
 	}
 
-	alert(`Runtime error 4000\nThe requested resource does not exist or the Cross-Origin Resource Sharing policy forbids loading it.\n\nWhen loading: [${scenePath}]\nattempted at: [${ResolveScenePath(scenePath)}]`);
+	let msg = `Runtime error 4000\nThe requested resource does not exist or the Cross-Origin Resource Sharing policy forbids loading it.\n\nWhen loading: [${scenePath}]\nattempted at: [${ResolveScenePath(scenePath)}]`
 
-	console.log(`Runtime error 4000\nThe requested resource does not exist or the Cross-Origin Resource Sharing policy forbids loading it.\n\nWhen loading: [${scenePath}]\nattempted at: [${ResolveScenePath(scenePath)}]`);
+	alert(msg);
+	console.log(msg);
 }
 
 /**
- * Sets the title of the browser, concatenating the scene and story title.
+ * Sets the title of the browser, concatenating the scene and story title if needed.
  */
 function SetTitle()
 {
-	let sceneData = document.querySelector("#sceneData");
+	let sceneData = ß("#sceneData")
 	if (sceneData) {
 		let sceneTitle = sceneData.getAttribute("data-title");
 		document.title = `${sceneTitle} | ${title}`;
@@ -107,12 +108,12 @@ function LoadSceneFiles(scenePath)
 {
 	let sceneScript = document.createElement("script");
 	sceneScript.setAttribute("src", ResolveScenePath(scenePath, "js"));
-	ß("#content").appendChild(sceneScript);
+	content.appendChild(sceneScript);
 	
 	let sceneStyle = document.createElement("link");
 	sceneStyle.setAttribute("rel", "stylesheet");
 	sceneStyle.setAttribute("href", ResolveScenePath(scenePath, "css"));
-	ß("#content").appendChild(sceneStyle);
+	content.appendChild(sceneStyle);
 }
 
 /**
@@ -123,4 +124,12 @@ function LoadSceneFiles(scenePath)
  */
 function ResolveScenePath(scenePath, file = "html") {
 	return `scenes/${scenePath}/${scenePath}.${file}`;
+}
+
+/**
+ * Wrapper for document.queryselector().
+ * @param {string} s CSS selector for the DOM object.
+ */
+function ß(s) {
+	return document.querySelector(s);
 }
