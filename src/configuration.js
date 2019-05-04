@@ -9,5 +9,6 @@ let conf =
 {
 	"entryPoint": "scene-0",
 	"title": "btif v0.2",
-	"debugMode": true
+	"debugMode": true,
+	"theme": "theme"
 }

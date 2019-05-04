@@ -6,6 +6,7 @@
 let entryPoint = conf.entryPoint;
 let title = conf.title;
 let debugMode = conf.debugMode;
+let theme = conf.theme;
 
 // Set up variables used.
 let content = x("#content");

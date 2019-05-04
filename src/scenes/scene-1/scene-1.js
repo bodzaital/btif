@@ -1,1 +1,1 @@
-ß("#name").innerText = _player;
+x("#name").innerText = _player;
