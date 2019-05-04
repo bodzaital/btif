@@ -14,11 +14,11 @@ The framework has a jQuery-like shorthand for selecting DOM elements:
  * Wrapper for document.querySelector().
  * @param {string} s CSS selector for the DOM object.
  */
-function ß(s) {
+function x(s) {
     return document.querySelector(s);
 }
 ```
-`ß` was used as to not clash with jQuery even though it is not required for the framework.
+`x` was used as to not clash with jQuery even though it is not required for the framework.
 
 Example scene directories:
 

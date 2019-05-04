@@ -1,1 +1,1 @@
-ß("#name").innerText = _player;
+x("#name-input").value = _player;

@@ -8,7 +8,7 @@ let title = conf.title;
 let debugMode = conf.debugMode;
 
 // Set up variables used.
-let content = ß("#content");
+let content = x("#content");
 
 // Load the first scene.
 LoadNextScene(conf.entryPoint);
@@ -91,7 +91,7 @@ function DebugCors(scenePath)
  */
 function SetTitle()
 {
-	let sceneData = ß("#sceneData")
+	let sceneData = x("#sceneData")
 	if (sceneData) {
 		let sceneTitle = sceneData.getAttribute("data-title");
 		document.title = `${sceneTitle} | ${title}`;
@@ -130,6 +130,6 @@ function ResolveScenePath(scenePath, file = "html") {
  * Wrapper for document.queryselector().
  * @param {string} s CSS selector for the DOM object.
  */
-function ß(s) {
+function x(s) {
 	return document.querySelector(s);
 }

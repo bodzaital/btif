@@ -1,1 +1,1 @@
-var _player = "PlayerName";
+var _player = "";
