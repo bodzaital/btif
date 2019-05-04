@@ -1,9 +1,9 @@
 ---
 layout: default
-title: Utilities
+title: Page
 nav_order: 2
 has_children: true
-permalink: /ui-components
+permalink: /page
 ---
 
 # Heading

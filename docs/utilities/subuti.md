@@ -1,9 +1,9 @@
 ---
 layout: default
-title: I am children
-parent: Utilities
+title: Subpage
+parent: page
 nav_order: 2
-permalink: /ui-components/subuti
+permalink: /page/sub
 ---
 
 # Subpage Heading
