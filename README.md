@@ -43,13 +43,3 @@ The main entry point to the story is defined in `configuration.js`. There, some 
 To link to another scene, use an `<a>` tag, but omit the file extension. A link to `scene-1` would look like this: `<a href="scene-1" data-link>Go to scene 1</a>`. Only links with the `data-link` attribute are considered for scene changing because other functionality (popups) may be triggered with links.
 
 The backbone of the framework is `app.js` which runs the AJAX calls. The latest version of Firefox allows them, but Chrome doesn't without a web server.
-
-## Todo
-
-- Continually add configuration options.
-- A cli scaffolder that can create the scene directory structure.
-- Saving/loading: File API? LocalStorage?
-- Example project.
-- Full documentation.
-- Fading between scenes.
-- A cli publishing tool that packages to a single Html page.
