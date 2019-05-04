@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Subpage
-parent: page
+parent: Page
 nav_order: 2
 permalink: /page/sub
 ---
