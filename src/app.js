@@ -8,11 +8,31 @@ let title = conf.title;
 let debugMode = conf.debugMode;
 let theme = conf.theme;
 
-// Set up variables used.
-let content = x("#content");
+let content;
 
-// Load the first scene.
-LoadNextScene(conf.entryPoint);
+let themeCall = new XMLHttpRequest();
+themeCall.responseType = "text";
+themeCall.open("GET", `themes/${theme}/frame.html`, true);
+themeCall.send();
+
+themeCall.addEventListener("load", () => {
+	x("#_content").innerHTML = themeCall.responseText;
+	content = x("#content");
+
+	let themeScript = document.createElement("script");
+	themeScript.setAttribute("src", `themes/${theme}/frame.js`);
+	x("#_content").appendChild(themeScript);
+	
+	let themeStyle = document.createElement("link");
+	themeStyle.setAttribute("rel", "stylesheet");
+	themeStyle.setAttribute("href", `themes/${theme}/frame.css`);
+	x("#_content").appendChild(themeStyle);
+
+	LoadNextScene(conf.entryPoint);
+});
+
+// let content = x("#_content");
+// LoadNextScene(conf.entryPoint);
 
 // Scene changed click event.
 document.addEventListener("click", e => {
@@ -53,6 +73,7 @@ function AfterSceneChange(callback = null) {
  */
 function LoadNextScene(scenePath, callback = null) {
 	let ajax = new XMLHttpRequest();
+	ajax.responseType = "text";
 	ajax.open("GET", ResolveScenePath(scenePath), true);
 	ajax.send();
 
