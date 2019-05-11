@@ -10,5 +10,5 @@ let conf =
 	"entryPoint": "scene-0",
 	"title": "btif v0.2",
 	"debugMode": true,
-	"theme": "theme"
+	"theme": "deftheme"
 }
