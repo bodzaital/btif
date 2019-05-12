@@ -1,50 +1,34 @@
 // ===================================
 // The main backbone of the framework.
 // ===================================
-
-// Load configuration. See configuration.js for descriptions.
-let entryPoint = conf.entryPoint;
-let title = conf.title;
-let debugMode = conf.debugMode;
-let theme = conf.theme;
+// Configuration is loaded to the conf variable.
 
 let content;
+let scene;
 
-let themeCall = new XMLHttpRequest();
-themeCall.responseType = "text";
-themeCall.open("GET", `themes/${theme}/frame.html`, true);
-themeCall.send();
-
-themeCall.addEventListener("load", () => {
-	x("#_content").innerHTML = themeCall.responseText;
+// Loads the theme and the entry point scene.
+AjaxGet(`themes/${conf.theme}/frame.html`, (e) => {
+	x("#target").innerHTML = e.responseText;
 	content = x("#content");
 
-	let themeScript = document.createElement("script");
-	themeScript.setAttribute("src", `themes/${theme}/frame.js`);
-	x("#_content").appendChild(themeScript);
-	
-	let themeStyle = document.createElement("link");
-	themeStyle.setAttribute("rel", "stylesheet");
-	themeStyle.setAttribute("href", `themes/${theme}/frame.css`);
-	x("#_content").appendChild(themeStyle);
+	x("#target").appendChild(ScriptElement(`themes/${conf.theme}/frame.js`));
+	x("#target").appendChild(LinkElement(`themes/${conf.theme}/frame.css`));
 
 	LoadNextScene(conf.entryPoint);
 });
 
-// let content = x("#_content");
-// LoadNextScene(conf.entryPoint);
-
 // Scene changed click event.
-document.addEventListener("click", e => {
-	e.preventDefault();
-	
+document.addEventListener("click", e => {	
 	let sender = e.target;
 	if (sender.tagName !== "A") {
 		return;
 	}
+
 	if (sender.getAttribute("data-link") === null) {
 		return;
 	}
+
+	e.preventDefault();
 
 	let scenePath = sender.getAttribute("href");
 	BeforeSceneChange(LoadNextScene(scenePath, () => {
@@ -53,14 +37,12 @@ document.addEventListener("click", e => {
 });
 
 function BeforeSceneChange(callback = null) {
-	console.log("TODO: Implement something before the scene changes.");
 	if (callback !== null) {
 		callback();
 	}
 }
 
 function AfterSceneChange(callback = null) {
-	console.log("TODO: Implement something after the scene changes.");
 	if (callback !== null) {
 		callback();
 	}
@@ -72,22 +54,14 @@ function AfterSceneChange(callback = null) {
  * @param {Function} callback A function to call once the loading is done.
  */
 function LoadNextScene(scenePath, callback = null) {
-	let ajax = new XMLHttpRequest();
-	ajax.responseType = "text";
-	ajax.open("GET", ResolveScenePath(scenePath), true);
-	ajax.send();
-
-	ajax.addEventListener("load", () => {
-		content.innerHTML = ajax.responseText;
+	AjaxGet(ResolveScenePath(scenePath), (e) => {
+		content.innerHTML = e.responseText;
 		SetTitle();
 		LoadSceneFiles(scenePath);
+		scene = scenePath;
 		if (callback !== null) {
 			callback();
-		}
-	});
-
-	ajax.addEventListener("error", () => {
-		DebugCors(scenePath);
+		}	
 	});
 }
 
@@ -96,13 +70,12 @@ function LoadNextScene(scenePath, callback = null) {
  * @param {string} stat Status code of the ajax call
  * @param {string} scenePath The scene name which was attempted to load
  */
-function DebugCors(scenePath)
-{
-	if (!debugMode) {
+function DebugCors(scenePath) {
+	if (!conf.debugMode) {
 		return;
 	}
 
-	let msg = `Runtime error 4000\nThe requested resource does not exist or the Cross-Origin Resource Sharing policy forbids loading it.\n\nWhen loading: [${scenePath}]\nattempted at: [${ResolveScenePath(scenePath)}]`
+	let msg = `Runtime error 4000\nThe requested scene does not exist or the Cross-Origin Resource Sharing policy forbids loading it.\n\nWhen loading: [${scenePath}]\nattempted at: [${ResolveScenePath(scenePath)}]`
 
 	alert(msg);
 	console.log(msg);
@@ -111,14 +84,13 @@ function DebugCors(scenePath)
 /**
  * Sets the title of the browser, concatenating the scene and story title if needed.
  */
-function SetTitle()
-{
+function SetTitle() {
 	let sceneData = x("#sceneData")
 	if (sceneData) {
 		let sceneTitle = sceneData.getAttribute("data-title");
-		document.title = `${sceneTitle} | ${title}`;
+		document.title = `${sceneTitle} | ${conf.title}`;
 	} else {
-		document.title = title;
+		document.title = conf.title;
 	}
 }
 
@@ -128,14 +100,8 @@ function SetTitle()
  */
 function LoadSceneFiles(scenePath)
 {
-	let sceneScript = document.createElement("script");
-	sceneScript.setAttribute("src", ResolveScenePath(scenePath, "js"));
-	content.appendChild(sceneScript);
-	
-	let sceneStyle = document.createElement("link");
-	sceneStyle.setAttribute("rel", "stylesheet");
-	sceneStyle.setAttribute("href", ResolveScenePath(scenePath, "css"));
-	content.appendChild(sceneStyle);
+	content.appendChild(ScriptElement(ResolveScenePath(scenePath, "js")));
+	content.appendChild(LinkElement(ResolveScenePath(scenePath, "css")));
 }
 
 /**
@@ -149,9 +115,18 @@ function ResolveScenePath(scenePath, file = "html") {
 }
 
 /**
- * Wrapper for document.queryselector().
- * @param {string} s CSS selector for the DOM object.
+ * Asynchronously returns the contents of the file.
+ * @param {Event} c The event object raised by the input field.
  */
-function x(s) {
-	return document.querySelector(s);
+function OpenFileAsync(c) {
+	return new Promise(resolve => {
+		let f = c.target.files[0];
+	
+		let r = new FileReader();
+		r.addEventListener("load", (e) => {
+			resolve(e.target.result);
+		});
+	
+		r.readAsText(f);
+	});
 }

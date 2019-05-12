@@ -1,1 +1,3 @@
-var _player = "";
+var globals = {
+	_player: ""
+}
