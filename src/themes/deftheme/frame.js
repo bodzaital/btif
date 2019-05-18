@@ -30,7 +30,7 @@ x("#btn-load").addEventListener("click", e => {
 });
 
 x(".load-area").addEventListener("change", e => {
-	HandleOpenFile(e).then((v) => {
+	OpenFileAsync(e).then((v) => {
 		let saveData = JSON.parse(v);
 		globals._player = saveData.data._player;
 		if (scene == "scene-0") {
@@ -38,7 +38,3 @@ x(".load-area").addEventListener("change", e => {
 		}
 	});
 });
-
-async function HandleOpenFile(e) {
-	return await OpenFileAsync(e);
-}

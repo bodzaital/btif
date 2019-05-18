@@ -4,6 +4,10 @@
 // Configuration is loaded to the conf variable.
 
 let content;
+/**
+ * The target element where the frame is drawn.
+ */
+let target = x("#target");
 let scene;
 
 // Loads the theme and the entry point scene.
@@ -115,12 +119,21 @@ function ResolveScenePath(scenePath, file = "html") {
 }
 
 /**
- * Asynchronously returns the contents of the file.
- * @param {Event} c The event object raised by the input field.
+ * Asynchronously opens the file and gets the contents.
+ * @param {Event} e The event object raised by the input field.
  */
-function OpenFileAsync(c) {
+async function OpenFileAsync(e) {
+	return await OpenFile(e);
+}
+
+/**
+ * Asynchronous function that opens the file. Call through OpenFileAsync().
+ * @param {Event} e The event object raised by the input field.
+ * @returns A Promise of the file's contents.
+ */
+function OpenFile(e) {
 	return new Promise(resolve => {
-		let f = c.target.files[0];
+		let f = e.target.files[0];
 	
 		let r = new FileReader();
 		r.addEventListener("load", (e) => {
