@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28803.452
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "btif-cli", "btif-cli\btif-cli.csproj", "{7261FAC5-E357-464D-9D0B-0780A6C5DCDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "btif-cli", "btif-cli\btif-cli.csproj", "{7677614C-21F1-4091-8936-8F262D06D27F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7261FAC5-E357-464D-9D0B-0780A6C5DCDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7261FAC5-E357-464D-9D0B-0780A6C5DCDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7261FAC5-E357-464D-9D0B-0780A6C5DCDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7261FAC5-E357-464D-9D0B-0780A6C5DCDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7677614C-21F1-4091-8936-8F262D06D27F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7677614C-21F1-4091-8936-8F262D06D27F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7677614C-21F1-4091-8936-8F262D06D27F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7677614C-21F1-4091-8936-8F262D06D27F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {5297548C-CC5E-4D9C-8425-7995D912B5C5}
+		SolutionGuid = {7FAE0D48-B097-4C4C-9B16-5CA23CB62B81}
 	EndGlobalSection
 EndGlobal
