@@ -33,8 +33,6 @@ x(".load-area").addEventListener("change", e => {
 	OpenFileAsync(e).then((v) => {
 		let saveData = JSON.parse(v);
 		globals.Set("player", saveData.data["player"]);
-		if (scene == "scene-0") {
-			x("#name-input").value = globals.Get("player");
-		}
+		SceneLoad();
 	});
 });
