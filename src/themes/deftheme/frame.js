@@ -6,13 +6,13 @@ x("#btn-save").addEventListener("click", e => {
 		}
 	};
 
-	saveDataJson.data = globals;
+	saveDataJson.data = globals.store;
 
 	let serialized = JSON.stringify(saveDataJson);
 	let dataStream = "data:text/json;charset=utf-8," + encodeURIComponent(serialized);
 	
 	let dlAnchorElem = document.getElementById('downloadAnchorElem');
-	dlAnchorElem.setAttribute("href",     dataStream     );
+	dlAnchorElem.setAttribute("href", dataStream);
 	dlAnchorElem.setAttribute("download", "scene.json");
 	dlAnchorElem.click();
 });
@@ -32,9 +32,9 @@ x("#btn-load").addEventListener("click", e => {
 x(".load-area").addEventListener("change", e => {
 	OpenFileAsync(e).then((v) => {
 		let saveData = JSON.parse(v);
-		globals._player = saveData.data._player;
+		globals.Set("player", saveData.data["player"]);
 		if (scene == "scene-0") {
-			x("#name-input").value = globals._player;
+			x("#name-input").value = globals.Get("player");
 		}
 	});
 });

@@ -1,1 +1,1 @@
-x("#name").innerText = globals._player;
+x("#name").innerText = globals.Get("player");
