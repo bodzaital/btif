@@ -1,3 +1,5 @@
+// Runs when the save buttons is clicked.
+// Serializes the globals object and downloads the JSON file.
 x("#btn-save").addEventListener("click", e => {
 	let saveDataJson = {
 		"version": 0.2,
@@ -17,6 +19,7 @@ x("#btn-save").addEventListener("click", e => {
 	dlAnchorElem.click();
 });
 
+// Helper function to reveal/hide the file browser button.
 x("#btn-load").addEventListener("click", e => {
 	if (x(".load-area").style.display == "block") {
 		x(".load-area").style.display = "none";
@@ -29,6 +32,9 @@ x("#btn-load").addEventListener("click", e => {
 	}
 });
 
+// Runs then the file browser button is clicked.
+// "Async" calls OpenFileAsync from app.js.
+// Parses the JSON and sets the global variables, then tells the scenes that the globals are set and ready to use.
 x(".load-area").addEventListener("change", e => {
 	OpenFileAsync(e).then((v) => {
 		let saveData = JSON.parse(v);
