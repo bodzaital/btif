@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Loading API
-parent: Page
+parent: saving-loading
 nav_order: 2
 permalink: /saving-loading/loading
 ---
