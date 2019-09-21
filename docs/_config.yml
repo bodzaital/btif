@@ -1,4 +1,4 @@
-remote_theme: pmarsceill/just-the-docs
+remote_theme: tomjoht/documentation-theme-jekyll
 search_enabled: true
 aux_links:
     "Find it on GitHub":
