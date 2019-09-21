@@ -73,4 +73,13 @@ function NoCache() {
 	return Math.floor(Math.random() * (99999 - 10000)) + 10000; //The maximum is exclusive and the minimum is inclusive
 }
 
-export { $, $$, Load, CreateElement, ResolveScene, ResolveTheme };
+/**
+ * Returns the value of the condition only if it evaluates to non-null.
+ * @param {*} condition The condition to evaluate.
+ * @param {*} otherwise A default value if the condition evaluates to null.
+ */
+function NullConditional(condition, otherwise) {
+	return condition !== null ? condition : otherwise;
+}
+
+export { $, $$, Load, CreateElement, ResolveScene, ResolveTheme, NullConditional };

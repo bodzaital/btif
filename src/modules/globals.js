@@ -11,6 +11,8 @@ class Globals {
 	Get(key) {
 		if (this.store.hasOwnProperty(key)) {
 			return this.store[key];
+		} else {
+			return null;
 		}
 	}
 }
