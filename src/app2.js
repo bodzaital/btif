@@ -48,7 +48,7 @@ function Initialize() {
 		}
 
 		// And it's not a navigation link...
-		if (sender.getAttribute("data-link") === null) {
+		if (sender.getAttribute("data-link") !== null) {
 			return
 		}
 
