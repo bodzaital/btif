@@ -1,5 +1,3 @@
-x("#name").innerText = globals.Get("player");
+import { $ } from "../../modules/utils.js";
 
-function SceneLoad() {
-	x("#name").innerText = globals.Get("player");	
-}
+$("#name").innerText = globals.Get("player");

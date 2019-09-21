@@ -47,6 +47,7 @@ function CreateElement(e) {
 		case "script":
 			n = document.createElement("script");
 			n.setAttribute("src", e.src);
+			n.setAttribute("type", "module");
 			return n;
 	
 		default:
@@ -61,11 +62,15 @@ function CreateElement(e) {
  * @param {string} ext name of the extension.
  */
 function ResolveScene(name, ext = "html") {
-	return `scenes/${name}/${name}.${ext}`;
+	return `scenes/${name}/${name}.${ext}?c=${NoCache()}`;
 }
 
 function ResolveTheme(name, ext = "html") {
-	return `themes/${name}/frame.${ext}`;
+	return `themes/${name}/frame.${ext}?c=${NoCache()}`;
+}
+
+function NoCache() {
+	return Math.floor(Math.random() * (99999 - 10000)) + 10000; //The maximum is exclusive and the minimum is inclusive
 }
 
 export { $, $$, Load, CreateElement, ResolveScene, ResolveTheme };

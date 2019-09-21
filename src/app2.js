@@ -55,7 +55,7 @@ function Initialize() {
 		// Then navigate to that scene.
 		e.preventDefault();
 		Scene(sender.getAttribute("href"));
-	})
+	});
 }
 
 /**
@@ -79,23 +79,16 @@ function Scene(name, cb = null) {
 			href: ResolveScene(name, "css")
 		}));
 
-		SetTitle();
+		if ($("#sceneData") !== null) {
+			document.title = `${$("#sceneData").getAttribute("data-title")} | ${conf.title}`;
+		} else {
+			document.title = conf.title;
+		}
 
 		if (cb !== null) {
 			cb();
 		}
 	});
-}
-
-/**
- * Sets the title of the page.
- */
-function SetTitle() {
-	if ($("#sceneData") !== null) {
-		document.title = `${$("#sceneData").getAttribute("data-title")} | ${conf.title}`;
-	} else {
-		document.title = conf.title;
-	}
 }
 
 Initialize();
