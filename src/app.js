@@ -53,7 +53,6 @@ function Initialize() {
 		}
 
 		let allowSwitch = true;
-
 		let required = $$(":required");
 		if (required.length > 0) {
 			required.forEach((e) => {
