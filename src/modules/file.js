@@ -7,7 +7,7 @@ class File {
 			"data": {}
 		};
 
-		save.data = globals.store;
+		save.data = data.store;
 
 		let stream = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(save))}`;
 

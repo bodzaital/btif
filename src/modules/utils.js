@@ -1,16 +1,16 @@
 /**
- * Queries the document about an element and returns the first occurence.
- * @param {string} s Selector string
- * @param {Element} d Parent element
+ * Gets the first occurence of the given element.
+ * @param {string} s Selector string.
+ * @param {Element} d Parent element (default: document).
  */
 function $(s, d = document) {
 	return d.querySelector(s);
 }
 
 /**
- * Queries the document about an element and returns a collection.
- * @param {string} s Selector string
- * @param {Element} d Parent element
+ * Gets all occurences of the given element.
+ * @param {string} s Selector string.
+ * @param {Element} d Parent element (default: document).
  */
 function $$(s, d = document) {
 	return d.querySelectorAll(s);

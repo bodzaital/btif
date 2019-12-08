@@ -1,4 +1,4 @@
-class Globals {
+class Data {
 	constructor()
 	{
 		this.store = {};
@@ -17,4 +17,4 @@ class Globals {
 	}
 }
 
-var globals = new Globals();
+var data = new Data();

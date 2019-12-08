@@ -1,7 +1,7 @@
 import { $, NullConditional } from "../../modules/utils.js";
 
-$("#name-input").value = NullConditional(globals.Get("player"), "");
+$("#name-input").value = NullConditional(data.Get("player"), "");
 
 $("[href=scene-1]").addEventListener("click", () => {
-	globals.Set("player", $("#name-input").value);
+	data.Set("player", $("#name-input").value);
 });
