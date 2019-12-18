@@ -1,4 +1,5 @@
 import { $, $$, Load, CreateElement, ResolveScene, ResolveTheme } from "./modules/utils.js";
+// import { Data } from "./modules/globals.js";
 
 /**
  * Where the frame is drawn.
@@ -35,8 +36,12 @@ function Initialize() {
 			href: ResolveTheme(conf.theme, "css")
 		}));
 
+		if (data.currentScene === null) {
+			data.currentScene = conf.entryPoint;
+		}
+
 		// Load the first scene.
-		Scene(conf.entryPoint);
+		Scene(data.currentScene);
 	});
 
 	document.addEventListener("click", (e) => {
@@ -97,10 +102,19 @@ function Scene(name, cb = null) {
 			document.title = conf.title;
 		}
 
+		// Set the scene as the current scene.
+		data.currentScene = name;
+
 		if (cb !== null) {
 			cb();
 		}
 	});
 }
+
+document.addEventListener("file-loaded", (e) => {
+	if (e.detail === 200) {
+		Scene(data.currentScene);
+	}
+});
 
 Initialize();

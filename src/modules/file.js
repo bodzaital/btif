@@ -11,6 +11,7 @@ class File {
 	static Save() {
 		let save = {
 			"version": File.Version(),
+			"currentScene": data.currentScene,
 			"data": {}
 		};
 
@@ -44,6 +45,7 @@ class File {
 				document.dispatchEvent(new CustomEvent("file-loaded", { detail: 600 }));
 			} else {
 				data.store = json.data;
+				data.currentScene = json.currentScene;
 				document.dispatchEvent(new CustomEvent("file-loaded", { detail: 200 }));
 			}
 		});

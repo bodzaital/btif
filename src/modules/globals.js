@@ -2,6 +2,7 @@ class Data {
 	constructor()
 	{
 		this.store = {};
+		this.currentScene = null;
 	}
 
 	Set(key, value) {
