@@ -8,7 +8,7 @@ permalink: /file-api/saving
 
 # Saving API
 
-The static `File.Save(element: string)` method saves the game data object by (1) serializing it as a JSON string and (2) downloading the file. The theme must have a hidden `<a>` element, the selector of which is then passed to the `File.Save(element: string)` method.
+The static `File.Save()` method saves the game data object by (1) serializing it as a JSON string and (2) downloading the file. The theme must have a hidden `a#hidden-link-save` element.
 
 ## Usage
 
@@ -22,7 +22,7 @@ In this example, the theme has a save button, which when clicked, serializes the
 
 ```html
 <div class="menu">
-	<a id="link_save" style="display:none"></a>
+	<a id="hidden-link-save" style="display:none"></a>
 	<button id="menu_save">Save</button>
 </div>
 
@@ -35,11 +35,7 @@ In this example, the theme has a save button, which when clicked, serializes the
 import { File } from "../../modules/file.js";
 
 $("#menu_save").addEventListener("click", (e) => {
-	File.Save("#link_save");
+	File.Save();
 });
 
 ```
-
-## Next versions
-
-In future engine versions, the hidden `<a>` element will be required with a special `id` attribute, passing it in `File.Save(element: string)` will not be required (as it is assumed to exist in the theme).

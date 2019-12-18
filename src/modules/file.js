@@ -7,9 +7,8 @@ class File {
 
 	/**
 	 * Saves the game data by serializing it as a JSON file and downloading it.
-	 * @param {string} element Selector of the hidden <a> element.
 	 */
-	static Save(element) {
+	static Save() {
 		let save = {
 			"version": File.Version(),
 			"data": {}
@@ -18,6 +17,7 @@ class File {
 		save.data = data.store;
 
 		let stream = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(save))}`;
+		let element = "#hidden-save-link";
 
 		$(element).setAttribute("href", stream);
 		$(element).setAttribute("download", "save.json");
