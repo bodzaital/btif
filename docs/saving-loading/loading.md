@@ -8,36 +8,49 @@ permalink: /file-api/loading
 
 # Loading API
 
-The Loading API provides a method to asynchronously load an already saved JSON file. The actual parsing is left to the frame.
+The static `File.Load(inputEventArgs: object)` method loads the game data object by (1) parsing it as a JSON object. If the file is loaded and parsed, the `file-loaded` event is dispatched with a status code in `EventArgs.detail`:
+
+- 200: loaded and parsed successfully
+- 600: version mismatch
+
+The theme must have an `input[type="file"]` element wrapped in another element. The `EventArgs` object raised by the input element is passed to `File.Load(inputEventArgs: object)` method.
 
 ## Usage
 
-In your frame, add an event listener to the file browser button, and pass the event object to the `OpenFileAsync()` function. The function returns a `Promise`, which contains the file's contents. As of version 0.2, the Loading API only loads the file but doesn't set any variables, nor notifies the scenes. These functions will be implemented into the Loading API.
+To use the File API, import the `File` object from `modules/files.js`.
 
-```js
-x(".browse-file").addEventListener("change", e => {
-	OpenFileAsync(e).then((v) => {
-		let saveData = JSON.parse(v);
-		globals.Set("player", saveData.data["player"]);
-		SceneLoad();
-	});
+## Example
+
+In this example, the theme has a load button (an `input[type="file"]`), wrapped in a `form` element. When the input is clicked, the selected file is loaded and parsed, then a scene (`scene-0`) updates with the stored data.
+
+**frame.html**
+
+```html
+<form id="form_load">
+	<input type="file" id="input_load" name="input_load">
+</form>
+```
+
+**frame.js**
+
+```javascript
+import { File } from "../../modules/file.js";
+
+$("#form_load").addEventListener("change", (e) => {
+	File.Load(e);
 });
 ```
 
-The above excerpt calls the `OpenFileAsync()` function, then once the Promise is recieved, parses the file contents, then sets the `player` global, and notifies the scenes that the globals are set and ready to use.
+**scene-0.js**
 
-## Notifying a scene
-
-The frame can also notify the scenes that the saved data is loaded and the globals are ready to be used.
-
-```js
-SceneLoad();
+```javascript
+document.addEventListener("file-loaded", (e) => {
+	if (e.detail === 200) {
+		$("#name-input").value = data.Get("player");
+	}
+});
 ```
 
-```js
-function SceneLoad() {
-	x("#name-input").value = globals.Get("player");
-}
-```
+## Remarks
 
-The scenes may define a `SceneLoad()` function that is called by the frame after loading a file. In this function, a scene should set up its visuals to match the contents of the variables in the globals object.
+On status codes other than `200`, the theme should display some error message to the player; the scenes should only update on status code `200`.

@@ -1,13 +1,17 @@
 import { $, $$, Load, CreateElement, ResolveScene, ResolveTheme } from "./utils.js";
 
 class File {
+	static Version() {
+		return 0.1;
+	}
+
 	/**
 	 * Saves the game data by serializing it as a JSON file and downloading it.
 	 * @param {string} element Selector of the hidden <a> element.
 	 */
 	static Save(element) {
 		let save = {
-			"version": 0.1,
+			"version": File.Version(),
 			"data": {}
 		};
 
@@ -19,6 +23,32 @@ class File {
 		$(element).setAttribute("download", "save.json");
 		$(element).setAttribute("data-link", "true");
 		$(element).click();
+	}
+
+	/**
+	 * Loads the contents of a file and dispatches a "file-loaded" event once done.
+	 * 
+	 * Event status codes (EventArgs.detail):
+	 * 
+	 * - 200: save file successfully parsed and loaded.
+	 * - 600: version mismatch.
+	 * @param {{}} inputEventArgs The EventArgs by the file input element.
+	 */
+	static Load(inputEventArgs) {
+		let fileReader = new FileReader();
+
+		fileReader.addEventListener("load", (fileObject) => {
+			let json = JSON.parse(fileObject.target.result);
+
+			if (json.version !== File.Version()) {
+				document.dispatchEvent(new CustomEvent("file-loaded", { detail: 600 }));
+			} else {
+				data.store = json.data;
+				document.dispatchEvent(new CustomEvent("file-loaded", { detail: 200 }));
+			}
+		});
+
+		fileReader.readAsText(inputEventArgs.target.files[0]);
 	}
 }
 
