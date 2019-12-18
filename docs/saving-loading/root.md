@@ -1,13 +1,11 @@
 ---
 layout: default
-title: Saving/Loading
+title: File API
 nav_order: 2
 has_children: true
-permalink: /saving-loading
+permalink: /file-api
 ---
 
-# Saving/Loading
+# File API
 
-The btif app.js provides a basic API for saving and loading files, but the actual interaction must be provided by a theme (called a frame in the source code).
-
-As of version 0.2, the API for asynchronously loading a save file works, but an API for saving a file is planned.
+The btif engine provides a basic set of APIs for saving and loading files, but the actual interaction must be implemented by a theme.

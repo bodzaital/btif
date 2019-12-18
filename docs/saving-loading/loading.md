@@ -1,9 +1,9 @@
 ---
 layout: default
 title: Loading API
-parent: Saving/Loading
+parent: File API
 nav_order: 2
-permalink: /saving-loading/loading
+permalink: /file-api/loading
 ---
 
 # Loading API

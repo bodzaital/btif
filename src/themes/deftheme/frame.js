@@ -2,7 +2,7 @@ import { $ } from "../../modules/utils.js";
 import { File } from "../../modules/file.js";
 
 $("#menu_save").addEventListener("click", (e) => {
-	File.Save();
+	File.Save("#link_save");
 });
 
 // Runs when the save buttons is clicked.
