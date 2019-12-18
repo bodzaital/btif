@@ -73,6 +73,12 @@ function Initialize() {
 			Scene(sender.getAttribute("href"));
 		}
 	});
+
+	document.addEventListener("file-loaded", (e) => {
+		if (e.detail === 200) {
+			Scene(data.currentScene);
+		}
+	});
 }
 
 /**
@@ -110,11 +116,5 @@ function Scene(name, cb = null) {
 		}
 	});
 }
-
-document.addEventListener("file-loaded", (e) => {
-	if (e.detail === 200) {
-		Scene(data.currentScene);
-	}
-});
 
 Initialize();
