@@ -35,6 +35,27 @@ function Load(target, cb = null) {
 	});
 }
 
+/**
+ * Creates an element based on a description.
+ * @param {{}} elementDescriptor A description of the element.
+ */
+function CreateElementOO(elementDescriptor) {
+	// Is it really OO? Well, no, but who cares? Sounds nice.
+	let e = document.createElement(elementDescriptor.name);
+
+	e.classList = NullishCoalescingOperator(elementDescriptor.classList, [""]);
+	e.id = NullishCoalescingOperator(elementDescriptor.id, "");
+	e.innerHTML = NullishCoalescingOperator(elementDescriptor.innerHTML, "");
+
+	elementDescriptor.attributes.forEach(element => {
+		for (let o in element) {
+			e[o] = element[o];
+		}
+	});
+
+	elementDescriptor.parent.appendChild(e);
+}
+
 function CreateElement(e) {
 	let n;
 	switch (e.type) {
@@ -82,4 +103,17 @@ function NullConditional(condition, otherwise) {
 	return condition !== null ? condition : otherwise;
 }
 
-export { $, $$, Load, CreateElement, ResolveScene, ResolveTheme, NullConditional };
+/**
+ * A janky workaround for when the nullish coalescing operator ?? doesn't work. Returns rhs when lhs is null or undefined, and otherwise returns its lhs.
+ * @param {*} lhs The left hand side.
+ * @param {*} rhs The right hand side.
+ */
+function NullishCoalescingOperator(lhs, rhs) {
+	if (lhs == null || lhs == undefined) {
+		return rhs;
+	}
+
+	return lhs;
+}
+
+export { $, $$, Load, CreateElement, ResolveScene, ResolveTheme, NullConditional, CreateElementOO, NullishCoalescingOperator };

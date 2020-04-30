@@ -1,4 +1,4 @@
-import { $, $$, Load, CreateElement, ResolveScene, ResolveTheme } from "./modules/utils.js";
+import { $, $$, Load, CreateElement, ResolveScene, ResolveTheme, CreateElementOO, NullishCoalescingOperator } from "./modules/utils.js";
 // import { Data } from "./modules/globals.js";
 
 /**
@@ -23,18 +23,24 @@ function Initialize() {
 		target.innerHTML = e.responseText;
 		
 		content = $("#content");
-		
-		// Add the script of the frame.
-		target.appendChild(CreateElement({
-			type: "script",
-			src: ResolveTheme(conf.theme, "js")
-		}));
 
-		// Add the stylesheet of the frame.
-		target.appendChild(CreateElement({
-			type: "stylesheet",
-			href: ResolveTheme(conf.theme, "css")
-		}));
+		CreateElementOO({
+			parent: target,
+			name: "script",
+			attributes: [
+				{src: ResolveTheme(conf.theme, "js")},
+				{type: "module"},
+			],
+		});
+
+		CreateElementOO({
+			parent: target,
+			name: "link",
+			attributes: [
+				{rel: "stylesheet"},
+				{href: ResolveTheme(conf.theme, "css")}
+			],
+		});
 
 		if (data.currentScene === null) {
 			data.currentScene = conf.entryPoint;
