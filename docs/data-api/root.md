@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Data API
-nav_order: 2
+nav_order: 4
 has_children: true
 permalink: /data-api
 ---
