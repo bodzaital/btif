@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>btif_cli</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="scene-template.css" />
+    <None Remove="scene-template.html" />
+    <None Remove="scene-template.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="scene-template.css" />
+    <EmbeddedResource Include="scene-template.html" />
+    <EmbeddedResource Include="scene-template.js" />
+  </ItemGroup>
+
+</Project>
