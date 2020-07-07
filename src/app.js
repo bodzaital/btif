@@ -1,5 +1,4 @@
-import { $, $$, Load, CreateElement, ResolveScene, ResolveTheme, CreateElementOO, NullishCoalescingOperator } from "./modules/utils.js";
-// import { Data } from "./modules/globals.js";
+import { $, $$, LoadFile, ResolveSceneByName, ResolveThemeByName, NullConditional, CreateElementByDescriptor, NullishCoalescingOp } from "./modules/utils.js";
 
 /**
  * Where the frame is drawn.
@@ -19,26 +18,26 @@ let content;
 function Initialize() {
 	target = $("#target");
 	
-	Load(ResolveTheme(conf.theme), (e) => {
+	LoadFile(ResolveThemeByName(conf.theme), (e) => {
 		target.innerHTML = e.responseText;
 		
 		content = $("#content");
 
-		CreateElementOO({
+		CreateElementByDescriptor({
 			parent: target,
 			name: "script",
 			attributes: [
-				{src: ResolveTheme(conf.theme, "js")},
+				{src: ResolveThemeByName(conf.theme, "js")},
 				{type: "module"},
 			],
 		});
 
-		CreateElementOO({
+		CreateElementByDescriptor({
 			parent: target,
 			name: "link",
 			attributes: [
 				{rel: "stylesheet"},
-				{href: ResolveTheme(conf.theme, "css")}
+				{href: ResolveThemeByName(conf.theme, "css")}
 			],
 		});
 
@@ -93,20 +92,26 @@ function Initialize() {
  * @param {Function} cb Callback when the scene loaded.
  */
 function Scene(name, cb = null) {
-	Load(ResolveScene(name), (e) => {
+	LoadFile(ResolveSceneByName(name), (e) => {
 		content.innerHTML = e.responseText;
 
-		// Add the script file of the scene.
-		content.appendChild(CreateElement({
-			type: "script",
-			src: ResolveScene(name, "js")
-		}));
+		CreateElementByDescriptor({
+			parent: content,
+			name: "script",
+			attributes: [
+				{src: ResolveSceneByName(name, "js")},
+				{type: "module"}
+			]
+		});
 
-		// Add the stylesheet of the scene.
-		content.appendChild(CreateElement({
-			type: "stylesheet",
-			href: ResolveScene(name, "css")
-		}));
+		CreateElementByDescriptor({
+			parent: content,
+			name: "link",
+			attributes: [
+				{rel: "stylesheet"},
+				{href: ResolveSceneByName(name, "css")}
+			]
+		});
 
 		if ($("#sceneData") !== null) {
 			document.title = `${$("#sceneData").getAttribute("data-title")} | ${conf.title}`;

@@ -21,7 +21,7 @@ function $$(s, d = document) {
  * @param {string} target Name of the file to load.
  * @param {Function} cb Called when the loading is done.
  */
-function Load(target, cb = null) {
+function LoadFile(target, cb = null) {
 	let a = new XMLHttpRequest();
 	a.responseType = "text";
 	a.open("GET", target, true);
@@ -39,13 +39,13 @@ function Load(target, cb = null) {
  * Creates an element based on a description.
  * @param {{}} elementDescriptor A description of the element.
  */
-function CreateElementOO(elementDescriptor) {
+function CreateElementByDescriptor(elementDescriptor) {
 	// Is it really OO? Well, no, but who cares? Sounds nice.
 	let e = document.createElement(elementDescriptor.name);
 
-	e.classList = NullishCoalescingOperator(elementDescriptor.classList, [""]);
-	e.id = NullishCoalescingOperator(elementDescriptor.id, "");
-	e.innerHTML = NullishCoalescingOperator(elementDescriptor.innerHTML, "");
+	e.classList = NullishCoalescingOp(elementDescriptor.classList, [""]);
+	e.id = NullishCoalescingOp(elementDescriptor.id, "");
+	e.innerHTML = NullishCoalescingOp(elementDescriptor.innerHTML, "");
 
 	elementDescriptor.attributes.forEach(element => {
 		for (let o in element) {
@@ -56,47 +56,34 @@ function CreateElementOO(elementDescriptor) {
 	elementDescriptor.parent.appendChild(e);
 }
 
-function CreateElement(e) {
-	let n;
-	switch (e.type) {
-		case "stylesheet":
-			n = document.createElement("link");
-			n.setAttribute("rel", "stylesheet");
-			n.setAttribute("href", e.href);
-			return n;
-
-		case "script":
-			n = document.createElement("script");
-			n.setAttribute("src", e.src);
-			n.setAttribute("type", "module");
-			return n;
-	
-		default:
-			alert("Invalid object.");
-			break;
-	}
-}
-
 /**
  * Resolves a scene path by its name.
  * @param {string} name Name of the scene.
- * @param {string} ext name of the extension.
+ * @param {string} ext Name of the extension, default "html".
  */
-function ResolveScene(name, ext = "html") {
-	return `scenes/${name}/${name}.${ext}?c=${NoCache()}`;
-}
-
-function ResolveTheme(name, ext = "html") {
-	return `themes/${name}/frame.${ext}?c=${NoCache()}`;
-}
-
-function NoCache() {
-	return Math.floor(Math.random() * (99999 - 10000)) + 10000; //The maximum is exclusive and the minimum is inclusive
+function ResolveSceneByName(name, ext = "html") {
+	return `scenes/${name}/${name}.${ext}?c=${CacheBuster()}`;
 }
 
 /**
- * Returns the value of the condition only if it evaluates to non-null.
- * @param {*} condition The condition to evaluate.
+ * 
+ * @param {string} name Name of the scene.
+ * @param {string} ext Name of th extension, default "html".
+ */
+function ResolveThemeByName(name, ext = "html") {
+	return `themes/${name}/frame.${ext}?c=${CacheBuster()}`;
+}
+
+/**
+ * Generates a random number to be used for cache busting.
+ */
+function CacheBuster() {
+	return Math.floor(Math.random() * (99999 - 10000)) + 10000;
+}
+
+/**
+ * Returns a value if its not explicitly null.
+ * @param {*} condition The value.
  * @param {*} otherwise A default value if the condition evaluates to null.
  */
 function NullConditional(condition, otherwise) {
@@ -104,11 +91,11 @@ function NullConditional(condition, otherwise) {
 }
 
 /**
- * A janky workaround for when the nullish coalescing operator ?? doesn't work. Returns rhs when lhs is null or undefined, and otherwise returns its lhs.
+ * returns its right-hand side operand when its left-hand side operand is null or undefined, and otherwise returns its left-hand side operand.
  * @param {*} lhs The left hand side.
  * @param {*} rhs The right hand side.
  */
-function NullishCoalescingOperator(lhs, rhs) {
+function NullishCoalescingOp(lhs, rhs) {
 	if (lhs == null || lhs == undefined) {
 		return rhs;
 	}
@@ -116,4 +103,4 @@ function NullishCoalescingOperator(lhs, rhs) {
 	return lhs;
 }
 
-export { $, $$, Load, CreateElement, ResolveScene, ResolveTheme, NullConditional, CreateElementOO, NullishCoalescingOperator };
+export { $, $$, LoadFile, ResolveSceneByName, ResolveThemeByName, NullConditional, CreateElementByDescriptor, NullishCoalescingOp };
