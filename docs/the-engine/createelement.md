@@ -1,17 +1,17 @@
 ---
 layout: default
-title: CreateElementOO
+title: CreateElement
 parent: The Engine
 nav_order: 2
-permalink: /the-engine/createelementoo
+permalink: /the-engine/createelement
 ---
 
-# CreateElementOO method
+# CreateElement method
 
 Creates an element based on the provided elementDescriptor object. In the engine, it is used to dynamically add the frame's stylesheet and script file.
 
 ```js
-CreateElementOO(elementDescriptor);
+CreateElement(elementDescriptor);
 ```
 
 ## Parameters
@@ -36,7 +36,7 @@ The description of the element:
 The example creates a script element to load in the theme's script file as a module:
 
 ```js
-CreateElementOO({
+CreateElement({
 	parent: $("body"),
 	name: "script",
 	attributes: [
