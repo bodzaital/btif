@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text.Json;
 
 namespace btif_cli
 {
@@ -11,53 +10,90 @@ namespace btif_cli
     {
         static void Main(string[] args)
         {
-            if (!File.Exists("configuration.js"))
+            Console.WriteLine("btif cli");
+
+            if (args.Length == 0)
             {
-                Console.WriteLine("No configuration.js found. Is this directory a project?");
+                HelpScreen();
                 return;
             }
 
-            if (Directory.Exists(@$"scenes\{args[0]}"))
+            switch (args[0])
             {
-                Console.WriteLine("Scene by this name already exists.");
+                case "-n":
+                case "--new":
+                    NewScene(args[1]);
+                    break;
+
+                case "--help":
+                default:
+                    HelpScreen();
+                    break;
+            }
+        }
+
+        private static void NewScene(string scene_name)
+        {
+            if (!ValidProjectCheck())
+            {
                 return;
             }
 
-            ConfigurationJS configuration = ReadConfiguration();
+            if (Directory.Exists(@$"scenes\{scene_name}"))
+            {
+                ColorWriteLine("Scene by this name already exists.", ConsoleColor.Red);
+                return;
+            }
 
             ReadEmbeddedStreams(out string css, out string html, out string js);
 
-            html = ReplaceSceneName(args, html);
+            html = html.Replace("%", scene_name);
 
-            Directory.CreateDirectory($@"scenes\{args[0]}");
+            Directory.CreateDirectory($@"scenes\{scene_name}");
 
-            using (StreamWriter sw = new StreamWriter($@"scenes\{args[0]}\{args[0]}.html"))
+            using (StreamWriter sw = new StreamWriter($@"scenes\{scene_name}\{scene_name}.html"))
             {
                 sw.WriteLine(html);
             }
-            
-            using (StreamWriter sw = new StreamWriter($@"scenes\{args[0]}\{args[0]}.js"))
+
+            using (StreamWriter sw = new StreamWriter($@"scenes\{scene_name}\{scene_name}.js"))
             {
                 sw.WriteLine(js);
             }
 
-            using (StreamWriter sw = new StreamWriter($@"scenes\{args[0]}\{args[0]}.css"))
+            using (StreamWriter sw = new StreamWriter($@"scenes\{scene_name}\{scene_name}.css"))
             {
                 sw.WriteLine(css);
             }
 
-            Console.WriteLine(@$"New scene {args[0]} created @ scenes\{args[0]}");
+            ColorWriteLine(@$"New scene {scene_name} created @ scenes\{scene_name}", ConsoleColor.Green);
         }
 
-        private static string ReplaceSceneName(string[] args, string html)
+        private static void ColorWriteLine(string m, ConsoleColor c)
         {
-            string d;
-            List<string> s = html.Split('%').ToList();
-            s.Add(s.Last());
-            s[1] = args[0];
+            ConsoleColor fg = Console.ForegroundColor;
+            Console.ForegroundColor = c;
+            Console.WriteLine(m);
+            Console.ForegroundColor = fg;
+        }
 
-            d = string.Join(string.Empty, s);
-            return d;
+        private static void HelpScreen()
+        {
+            Console.WriteLine("\n-n scene_name\n--new scene_name");
+            Console.WriteLine("\tCreates a new scene under scenes/scene_name with all associated files.");
+            Console.WriteLine("\n--help");
+            Console.WriteLine("\tThis text.");
+        }
+
+        private static bool ValidProjectCheck()
+        {
+            if (!File.Exists("configuration.js"))
+            {
+                ColorWriteLine("No configuration.js found. Is this directory a project?", ConsoleColor.Red);
+                return false;
+            }
+
+            return true;
         }
 
         private static void ReadEmbeddedStreams(out string css, out string html, out string js)
@@ -81,34 +117,5 @@ namespace btif_cli
                 js = sr.ReadToEnd();
             }
         }
-
-        private static ConfigurationJS ReadConfiguration()
-        {
-            string confcon;
-            using (StreamReader sr = new StreamReader("configuration.js"))
-            {
-                confcon = sr.ReadToEnd();
-            }
-
-            int i = 0;
-            while (i < confcon.Length && confcon[i] != '{')
-            {
-                i++;
-            }
-
-            confcon = confcon.Substring(i);
-
-            return JsonSerializer.Deserialize<ConfigurationJS>(confcon, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-            });
-        }
-    }
-
-    class ConfigurationJS
-    {
-        public string EntryPoint { get; set; }
-        public string Title { get; set; }
-        public string Theme { get; set; }
     }
 }
