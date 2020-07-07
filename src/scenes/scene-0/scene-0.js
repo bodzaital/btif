@@ -2,12 +2,9 @@ import { $, $$, LoadFile, ResolveSceneByName, ResolveThemeByName, NullConditiona
 
 $("#name-input").value = NullConditional(data.Get("player"), "");
 
-$("[href=scene-1]").addEventListener("click", () => {
+$("#name-input").addEventListener("input", () => {
 	data.Set("player", $("#name-input").value);
 });
 
-document.addEventListener("file-loaded", (e) => {
-	if (e.detail === 200) {
-		$("#name-input").value = data.Get("player");
-	}
-});
+data.Subscribe($("#name-input"), "value", "player");
+data.Subscribe($("#databinding-test"), "innerText", "player");
