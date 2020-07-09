@@ -17,13 +17,12 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.101
-    - name: Changing directory
-      run: cd btif-cli
-    - name: What folder am i now
-      run: ls
     - name: Install dependencies
+      working-directory: ./btif-cli
       run: dotnet restore
     - name: Build
+      working-directory: ./btif-cli
       run: dotnet build --configuration Release --no-restore
     - name: Test
+      working-directory: ./btif-cli
       run: dotnet test --no-restore --verbosity normal
