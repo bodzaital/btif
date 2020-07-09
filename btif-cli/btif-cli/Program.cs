@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Reflection;
+using btif_scaffolder;
 
 namespace btif_cli
 {
@@ -36,6 +34,7 @@ namespace btif_cli
         {
             if (!ValidProjectCheck())
             {
+                ColorWriteLine("Missing configuration.js, maybe this isn't a project folder?", ConsoleColor.Red);
                 return;
             }
 
@@ -45,28 +44,10 @@ namespace btif_cli
                 return;
             }
 
-            ReadEmbeddedStreams(out string css, out string html, out string js);
-
-            html = html.Replace("%", scene_name);
-
-            Directory.CreateDirectory($@"scenes\{scene_name}");
-
-            using (StreamWriter sw = new StreamWriter($@"scenes\{scene_name}\{scene_name}.html"))
-            {
-                sw.WriteLine(html);
-            }
-
-            using (StreamWriter sw = new StreamWriter($@"scenes\{scene_name}\{scene_name}.js"))
-            {
-                sw.WriteLine(js);
-            }
-
-            using (StreamWriter sw = new StreamWriter($@"scenes\{scene_name}\{scene_name}.css"))
-            {
-                sw.WriteLine(css);
-            }
-
-            ColorWriteLine(@$"New scene {scene_name} created @ scenes\{scene_name}", ConsoleColor.Green);
+            SceneCreator sc = new SceneCreator();
+            
+            sc.CreateNewScene(scene_name);
+            ColorWriteLine("Done.", ConsoleColor.Green);
         }
 
         private static void ColorWriteLine(string m, ConsoleColor c)
@@ -94,28 +75,6 @@ namespace btif_cli
             }
 
             return true;
-        }
-
-        private static void ReadEmbeddedStreams(out string css, out string html, out string js)
-        {
-            Stream css_res = Assembly.GetExecutingAssembly().GetManifestResourceStream("btif_cli.scene-template.css");
-            Stream html_res = Assembly.GetExecutingAssembly().GetManifestResourceStream("btif_cli.scene-template.html");
-            Stream js_res = Assembly.GetExecutingAssembly().GetManifestResourceStream("btif_cli.scene-template.js");
-
-            using (StreamReader sr = new StreamReader(css_res))
-            {
-                css = sr.ReadToEnd();
-            }
-
-            using (StreamReader sr = new StreamReader(html_res))
-            {
-                html = sr.ReadToEnd();
-            }
-
-            using (StreamReader sr = new StreamReader(js_res))
-            {
-                js = sr.ReadToEnd();
-            }
         }
     }
 }

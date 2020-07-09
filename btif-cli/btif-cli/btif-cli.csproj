@@ -7,19 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="scene-template.css" />
-    <None Remove="scene-template.html" />
-    <None Remove="scene-template.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="scene-template.css" />
-    <EmbeddedResource Include="scene-template.html" />
-    <EmbeddedResource Include="scene-template.js" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.11.24" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\btif-scaffolder\btif-scaffolder.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>btif_scaffolder</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="scene-template.css" />
+    <None Remove="scene-template.html" />
+    <None Remove="scene-template.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="templates\scene-template.css" />
+    <EmbeddedResource Include="templates\scene-template.html" />
+    <EmbeddedResource Include="templates\scene-template.js" />
+  </ItemGroup>
+
+</Project>
