@@ -19,6 +19,8 @@ jobs:
         dotnet-version: 3.1.101
     - name: Changing directory
       run: cd btif-cli
+    - name: What folder am i now
+      run: ls
     - name: Install dependencies
       run: dotnet restore
     - name: Build
