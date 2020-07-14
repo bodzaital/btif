@@ -1,5 +1,8 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.Internal;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace btif_scaffolder.tests
 {
@@ -20,41 +23,38 @@ namespace btif_scaffolder.tests
         }
 
         [Test]
-        public void CorrectlyEmitsSceneFiles()
+        public void ExportedTemplates()
         {
             SceneCreator sc = new SceneCreator();
             sc.CreateNewScene(sceneName);
 
-            Assert.That(File.Exists($"scenes/{sceneName}/{sceneName}.html"));
-            Assert.That(File.Exists($"scenes/{sceneName}/{sceneName}.css"));
-            Assert.That(File.Exists($"scenes/{sceneName}/{sceneName}.js"));
-        }
+            List<EmbeddedFile> files = EmbeddedStreamReader.ReadAll();
+            string html = files.Single(x => x.Name == "templates.scene-template.html").Contents;
+            string css = files.Single(x => x.Name == "templates.scene-template.css").Contents;
+            string js = files.Single(x => x.Name == "templates.scene-template.js").Contents;
 
-        [Test]
-        public void CorrectlyContainsTemplates()
-        {
-            SceneCreator sc = new SceneCreator();
-            EmbeddedStreamReader.ReadAll(out string html, out string css, out string js);
+            using StreamReader sr_html = new StreamReader($@"scenes\{sceneName}\{sceneName}.html");
+            string read_html = sr_html.ReadToEnd();
+            
+            using StreamReader sr_css = new StreamReader($@"scenes\{sceneName}\{sceneName}.css");
+            string read_css = sr_css.ReadToEnd();
 
-            sc.CreateNewScene(sceneName);
+            using StreamReader sr_js = new StreamReader($@"scenes\{sceneName}\{sceneName}.js");
+            string read_js = sr_js.ReadToEnd();
 
-            using StreamReader swhtml = new StreamReader($"scenes/{sceneName}/{sceneName}.html");
-            using StreamReader swcss = new StreamReader($"scenes/{sceneName}/{sceneName}.css");
-            using StreamReader swjs = new StreamReader($"scenes/{sceneName}/{sceneName}.js");
-
-            if (html.Length > 0)
+            if (html.Length > 1)
             {
-                Assert.That(swhtml.ReadToEnd().Substring(0, 1), Is.EqualTo(html.Substring(0, 1)));
+                Assert.That(html.Substring(0, 1), Is.EqualTo(read_html.Substring(0, 1)));
             }
             
-            if (css.Length > 0)
+            if (css.Length > 1)
             {
-                Assert.That(swcss.ReadToEnd().Substring(0, 1), Is.EqualTo(css.Substring(0, 1)));
+                Assert.That(css.Substring(0, 1), Is.EqualTo(read_css.Substring(0, 1)));
             }
 
-            if (js.Length > 0)
+            if (js.Length > 1)
             {
-                Assert.That(swjs.ReadToEnd().Substring(0, 1), Is.EqualTo(js.Substring(0, 1)));
+                Assert.That(js.Substring(0, 1), Is.EqualTo(read_js.Substring(0, 1)));
             }
         }
 

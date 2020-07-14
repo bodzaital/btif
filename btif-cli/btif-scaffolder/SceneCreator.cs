@@ -1,8 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace btif_scaffolder
 {
+    public enum ExportFileType
+    {
+        SceneTemplate,
+    }
+
     public class SceneCreator
     {
         string sceneName;
@@ -11,25 +18,28 @@ namespace btif_scaffolder
         {
             this.sceneName = sceneName;
 
-            EmbeddedStreamReader.ReadAll(out string html, out string css, out string js);
-            html = html.Replace("%", sceneName);
+            List<EmbeddedFile> files = EmbeddedStreamReader.ReadAll();
+            files.Single(x => x.Name == "templates.scene-template.html").Contents.Replace("%", sceneName);
 
             Directory.CreateDirectory($"scenes/{sceneName}");
 
-            ExportTemplates(html, css, js);
+            ExportFiles(files);
         }
 
-        private void ExportTemplates(string html, string css, string js)
+        private void ExportFiles(List<EmbeddedFile> files)
         {
-            ExportTemplate("html", html);
-            ExportTemplate("css", css);
-            ExportTemplate("js", js);
+            files.ForEach(x => ExportFile(x, ExportFileType.SceneTemplate));
         }
 
-        private void ExportTemplate(string ext, string contents)
+        private void ExportFile(EmbeddedFile file, ExportFileType type)
         {
-            using StreamWriter sw = new StreamWriter($"scenes/{sceneName}/{sceneName}.{ext}");
-            sw.WriteLine(contents);
+            string export_uri = type switch
+            {
+                _ => $"scenes/{sceneName}/{sceneName}.{file.Name.Substring(file.Name.LastIndexOf('.') + 1)}",
+            };
+
+            using StreamWriter sw = new StreamWriter(export_uri);
+            sw.WriteLine(file.Contents);
         }
     }
 }
