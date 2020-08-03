@@ -8,7 +8,7 @@ permalink: /file-api/loading
 
 # Loading API
 
-The static `File.Load(inputEventArgs: object)` method loads the game data object by (1) parsing it as a JSON object. If the file is loaded and parsed, the `file-loaded` event is dispatched with a status code in `EventArgs.detail`:
+The static `File.Load(inputEventArgs: object)` method loads the game data object by parsing it as a JSON object. If the file is loaded and parsed, the `file-loaded` event is dispatched with a status code in `EventArgs.detail`:
 
 - 200: loaded and parsed successfully
 - 600: version mismatch
@@ -21,13 +21,13 @@ To use the File API, import the `File` object from `modules/files.js`.
 
 ## Example
 
-In this example, the theme has a load button (an `input[type="file"]`), wrapped in a `form` element. When the input is clicked, the selected file is loaded and parsed, then a scene (`scene-0`) updates with the stored data.
+In this example, the theme has a load button wrapped in a form element (1). When the input is clicked (triggers a change event in the form element), the selected file is loaded (2), parsed, and the global store is updated. Any subscribed elements are then synchronized by the Data API (3).
 
 **frame.html**
 
 ```html
 <form id="form_load">
-	<input type="file" id="input_load" name="input_load">
+	<input type="file" id="input_load" name="input_load"> <!-- (1) -->
 </form>
 ```
 
@@ -37,20 +37,20 @@ In this example, the theme has a load button (an `input[type="file"]`), wrapped 
 import { File } from "../../modules/file.js";
 
 $("#form_load").addEventListener("change", (e) => {
-	File.Load(e);
+	File.Load(e); // (2).
 });
+```
+
+**scene-0.html**
+```html
+<span id="player_name">
 ```
 
 **scene-0.js**
 
 ```javascript
-document.addEventListener("file-loaded", (e) => {
-	if (e.detail === 200) {
-		$("#name-input").value = data.Get("player");
-	}
-});
+data.Subscribe($("#player_name"), "innerText", "player"); // (3).
 ```
 
 ## Remarks
-
-On status codes other than `200`, the theme should display some error message to the player; the scenes should only update on status code `200`.
+The `file-loaded` event is still dispatched but the scenes themselves don't listen to it. The frame, however, may show an error message if the status code isn't the eexpected 200.

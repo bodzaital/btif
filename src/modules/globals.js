@@ -17,11 +17,27 @@ class Data {
 			this.subscribers[key] = [];
 		}
 
+		console.clear();
+
+		console.log(" - Key to update", key);
+		console.log(" - Element to add", element);
+		console.log(" - Property to add", property);
+
+		this.subscribers[key].forEach((e) => {
+			console.log(" ? Checking element", e.element);
+			console.log(e.element == element);
+			console.log(" ? Checking property", e.property);
+			console.log(e.property == property);
+		});
+		
 		this.subscribers[key].push({
 			element: element,
 			property: property
 		});
 
+		console.log(" + Added element", element);
+		console.log(" + Added property", property);
+		
 		this.Update(key);
 	}
 

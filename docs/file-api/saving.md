@@ -8,7 +8,7 @@ permalink: /file-api/saving
 
 # Saving API
 
-The static `File.Save()` method saves the game data object by (1) serializing it as a JSON string and (2) downloading the file. The theme must have a hidden `a#hidden-link-save` element.
+The static `File.Save()` method saves the game data object by serializing it as a JSON string and downloading the file by setting the href attribute of a hidden link and invoking it — the theme must have a hidden `a#hidden-link-save` element.
 
 ## Usage
 

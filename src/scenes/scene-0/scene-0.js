@@ -8,3 +8,7 @@ $("#name-input").addEventListener("input", () => {
 
 data.Subscribe($("#name-input"), "value", "player");
 data.Subscribe($("#databinding-test"), "innerText", "player");
+
+
+data.Subscribe($("#test-test-test"), "innerText", "test-test");
+data.Set("test-test", "value");
