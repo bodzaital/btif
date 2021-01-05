@@ -93,6 +93,8 @@ function Initialize() {
  */
 function Scene(name, cb = null) {
 	LoadFile(ResolveSceneByName(name), (e) => {
+		console.clear();
+		
 		content.innerHTML = e.responseText;
 
 		CreateElementByDescriptor({
@@ -121,6 +123,8 @@ function Scene(name, cb = null) {
 
 		// Set the scene as the current scene.
 		data.currentScene = name;
+
+		data.subscribers = {};
 
 		if (cb !== null) {
 			cb();

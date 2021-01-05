@@ -14,29 +14,15 @@ class Data {
 	 */
 	Subscribe(element, property, key) {
 		if (this.subscribers[key] == null) {
+			console.log(`[ DS ] ${key} was added to the subscribers of ${element.id}`);
 			this.subscribers[key] = [];
 		}
-
-		console.clear();
-
-		console.log(" - Key to update", key);
-		console.log(" - Element to add", element);
-		console.log(" - Property to add", property);
-
-		this.subscribers[key].forEach((e) => {
-			console.log(" ? Checking element", e.element);
-			console.log(e.element == element);
-			console.log(" ? Checking property", e.property);
-			console.log(e.property == property);
-		});
 		
+		console.log(`[ DS ] ${element.id}'s ${property} was added to ${key}`);
 		this.subscribers[key].push({
 			element: element,
 			property: property
 		});
-
-		console.log(" + Added element", element);
-		console.log(" + Added property", property);
 		
 		this.Update(key);
 	}
@@ -46,6 +32,8 @@ class Data {
 	 * @param {string} key The key.
 	 */
 	Update(key) {
+		console.log("[ DS ] Updating...");
+		
 		this.subscribers[key].forEach(e => {
 			e.element[e.property] = this.store[key] ?? "";
 		});
