@@ -7,7 +7,7 @@
 
 let conf =
 {
-	"entryPoint": "scene-0",
-	"title": "btif v0.2",
-	"theme": "deftheme"
+	"entryPoint": "",
+	"title": "",
+	"theme": "default"
 }
