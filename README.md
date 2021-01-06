@@ -6,4 +6,4 @@ btif is a work-in-progress interactive fiction player. The main design goal is t
 
 ## Documentation
 
-https://btif.zsoltboda.hu/
+https://bodzaital.github.io/btif
