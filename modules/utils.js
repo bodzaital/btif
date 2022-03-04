@@ -110,7 +110,7 @@ function NullishCoalescingOp(lhs, rhs) {
  * @param {bool} clear Clear the console before logging or not.
  */
  function Log(msg, clear = false) {
-	if (!conf.debug) return;
+	if (!conf.log) return;
 
 	if (clear) console.clear();
 	

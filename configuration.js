@@ -10,5 +10,5 @@ let conf =
 	"entryPoint": "scene-0",
 	"title": "",
 	"theme": "default",
-	"log": true
+	"log": false
 }
