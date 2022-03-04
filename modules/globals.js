@@ -1,3 +1,5 @@
+import { $, $$, LoadFile, ResolveSceneByName, ResolveThemeByName, NullConditional, CreateElementByDescriptor, NullishCoalescingOp, Log } from "./utils.js";
+
 class Data {
 	constructor()
 	{
@@ -14,11 +16,11 @@ class Data {
 	 */
 	Subscribe(element, property, key) {
 		if (this.subscribers[key] == null) {
-			console.log(`[ DS ] ${key} was added to the subscribers of ${element.id}`);
+			Log(`[ DS ] ${key} was added to the subscribers of ${element.id}`);
 			this.subscribers[key] = [];
 		}
 		
-		console.log(`[ DS ] ${element.id}'s ${property} was added to ${key}`);
+		Log(`[ DS ] ${element.id}'s ${property} was added to ${key}`);
 		this.subscribers[key].push({
 			element: element,
 			property: property
@@ -32,7 +34,7 @@ class Data {
 	 * @param {string} key The key.
 	 */
 	Update(key) {
-		console.log("[ DS ] Updating...");
+		Log("[ DS ] Updating...");
 		
 		this.subscribers[key].forEach(e => {
 			e.element[e.property] = this.store[key] ?? "";
@@ -62,4 +64,6 @@ class Data {
 	}
 }
 
-var data = new Data();
+let data = new Data();
+
+export { data };

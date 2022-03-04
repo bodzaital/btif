@@ -1,4 +1,5 @@
 import { $, $$, LoadFile, ResolveSceneByName, ResolveThemeByName, NullConditional, CreateElementByDescriptor, NullishCoalescingOp } from "../../modules/utils.js";
+import { data } from "../../modules/globals.js";
 
 $("#name-input").value = NullConditional(data.Get("player"), "");
 

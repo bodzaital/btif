@@ -1,4 +1,5 @@
-import { $, $$, LoadFile, ResolveSceneByName, ResolveThemeByName, NullConditional, CreateElementByDescriptor, NullishCoalescingOp } from "./modules/utils.js";
+import { $, $$, LoadFile, ResolveSceneByName, ResolveThemeByName, NullConditional, CreateElementByDescriptor, NullishCoalescingOp, Log } from "./modules/utils.js";
+import { data } from "./modules/globals.js";
 
 /**
  * Where the frame is drawn.
@@ -93,7 +94,7 @@ function Initialize() {
  */
 function Scene(name, cb = null) {
 	LoadFile(ResolveSceneByName(name), (e) => {
-		console.clear();
+		Log(null, true);
 		
 		content.innerHTML = e.responseText;
 

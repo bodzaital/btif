@@ -103,4 +103,20 @@ function NullishCoalescingOp(lhs, rhs) {
 	return lhs;
 }
 
-export { $, $$, LoadFile, ResolveSceneByName, ResolveThemeByName, NullConditional, CreateElementByDescriptor, NullishCoalescingOp };
+/**
+ * Logs debug information to the console if the
+ * debug option is true in configuration.js
+ * @param {string?} msg The message to log.
+ * @param {bool} clear Clear the console before logging or not.
+ */
+ function Log(msg, clear = false) {
+	if (!conf.debug) return;
+
+	if (clear) console.clear();
+	
+	if (msg == null) return;
+
+	console.log(msg);
+}
+
+export { $, $$, LoadFile, ResolveSceneByName, ResolveThemeByName, NullConditional, CreateElementByDescriptor, NullishCoalescingOp, Log };

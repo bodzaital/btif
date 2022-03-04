@@ -7,7 +7,8 @@
 
 let conf =
 {
-	"entryPoint": "",
+	"entryPoint": "scene-0",
 	"title": "",
-	"theme": "default"
+	"theme": "default",
+	"log": true
 }
