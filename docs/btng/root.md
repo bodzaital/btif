@@ -8,4 +8,4 @@ permalink: /btng
 
 # BTNG
 
-BTNG is a scaffolding tool, written in C# and .NET 5, used to generate the necessary files for a project. As of now, the project files are generated from embedded resources within the executable, but later, the latest version will be downloaded from the repository.
+BTNG is a scaffolding tool, written in C# and .NET 6. It can create and manage projects and scenes.

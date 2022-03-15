@@ -8,58 +8,14 @@ permalink: /btng/commands
 
 # BTNG Commands
 
-## Project
+![](https://bodzaital.github.io/btif/assets/images/unopened.png)
 
-These commands should be run from the same directory the project directory is in. In a later version, these will be run from within the project directory.
+![](https://bodzaital.github.io/btif/assets/images/openwithconf.png)
 
-### new
+These are the functions currently available:
 
-Generates a new project. Won't overwrite existing projects.
+Create a new project or open a project by selecting a `configuration.js` file. Creating a project will download the necessary files from the main repository.
 
-```
---project new [project name]
-```
+With a project opened, you can create or delete scenes, or change the configuration file.
 
-### delete
-
-Deletes a project if it exists. Won't ask twice.
-
-```
---project delete [project name]
-```
-
-### update
-
-Updates the files of the project, including the engine (app.js), the default theme, and the Javascript modules. The configuration and the scenes folder is not updated.
-
-```
---project update [project name]
-```
-
-## Scene
-
-These commands should be run from the project directory.
-
-### list
-
-Lists the scenes in the current project.
-
-```
---scene
-```
-
-### new
-
-Creates a new scene. Won't overwrite existing scenes.
-
-```
---scene new [scene name]
-```
-
-### delete
-
-Deletes a scene. Won't ask twice.
-
-```
---scene delete [scene name]
-```
+For the roadmap, see the [btng repository readme](https://github.com/bodzaital/btng/blob/main/README.md).
