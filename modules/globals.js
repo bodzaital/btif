@@ -9,7 +9,7 @@ class Data {
 	}
 
 	/**
-	 * Subscribes to a key in the store. When the key's value updates, also updates the subscribed element's property.
+	 * Creates a connection between an element's property and a key in the store.
 	 * @param {Node} element The element to subscribe.
 	 * @param {string} property The element's property to update.
 	 * @param {string} key The key to subscribe to.
@@ -30,6 +30,15 @@ class Data {
 	}
 
 	/**
+	 * Adds a new key to the store without updating subscribed elements.
+	 * @param {string} key 
+	 * @param {*} value 
+	 */
+	Add(key, value) {
+		this.store[key] = value;
+	}
+
+	/**
 	 * Updates all subscribed elements.
 	 * @param {string} key The key.
 	 */
@@ -42,12 +51,12 @@ class Data {
 	}
 
 	/**
-	 * Sets the key to a new value and updates all subscribed elements.
+	 * Adds a key to a new value and updates all subscribed elements.
 	 * @param {string} key The key to update.
 	 * @param {*} value The new value.
 	 */
 	Set(key, value) {
-		this.store[key] = value;
+		this.Add(key, value);
 		this.Update(key);
 	}
 
